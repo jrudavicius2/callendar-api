@@ -1,0 +1,30 @@
+api_comment_create:
+    path: /comment
+    defaults: { _controller: AppBundle:Api\Comment:create }
+    methods: [POST]
+
+api_comment_all:
+    path: /comments
+    defaults: { _controller: AppBundle:Api\Comment:all }
+    methods: [GET]
+
+api_comment_get:
+    path: /comment/{id}
+    defaults: { _controller: AppBundle:Api\Comment:get }
+    methods: [GET]
+    requirements:
+        id: '\d+'
+
+api_comment_edit:
+    path: /comment/{id}
+    defaults: { _controller: AppBundle:Api\Comment:edit }
+    methods: [PUT]
+    requirements:
+        id: '\d+'
+
+api_comment_delete:
+    path: /comment/{id}
+    defaults: { _controller: AppBundle:Api\Comment:delete }
+    methods: [DELETE]
+    requirements:
+        id: '\d+'

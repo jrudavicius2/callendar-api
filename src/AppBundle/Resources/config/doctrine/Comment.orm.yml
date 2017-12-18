@@ -1,0 +1,22 @@
+AppBundle\Entity\Comment:
+    type: entity
+    repositoryClass: AppBundle\Repository\CommentRepository
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        content:
+            type: text
+            column: content
+        publishedAt:
+            type: date
+            column: published_at
+
+    manyToOne:
+        event:
+            targetEntity: AppBundle\Entity\Event
+            inversedBy: comments
+            joinColumn:
+                name: event_id
+                referencedColumnName: id

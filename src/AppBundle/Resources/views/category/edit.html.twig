@@ -1,0 +1,38 @@
+{% extends '@App/base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block body %}
+    {% if category is not null %}
+        {% if errors is defined and errors|length > 0 %}
+            <div class="alert alert-danger">
+                {% for error in errors %}
+                    {{ error.getMessage }}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form action="{{ path('front_category_update', {'id': category.getId }) }}" method="POST">
+            <input type="hidden" name="_method" value="PUT">
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="title-input">Category name</label>
+                <div class="col-md-10">
+                    <input id="title-input"
+                           class="form-control"
+                           type="text"
+                           placeholder="Enter name"
+                           name="name"
+                           value="{{ category.getName }}"
+                    >
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+    {% else %}
+        <div class="alert alert-danger">
+            Category not found
+        </div>
+    {% endif %}
+{% endblock %}

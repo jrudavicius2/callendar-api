@@ -1,0 +1,31 @@
+{% extends '@App/base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block body %}
+    {% if errors is defined and errors|length > 0 %}
+        <div class="alert alert-danger">
+            {% for error in errors %}
+                {{ error.getMessage }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form action="{{ path('front_city_store') }}" method="POST">
+        <div class="form-group row">
+            <label class="col-md-2 col-form-label" for="title-input">City name</label>
+            <div class="col-md-10">
+                <input id="title-input"
+                       class="form-control"
+                       type="text"
+                       placeholder="Enter name"
+                       name="name"
+                       value="{% if city is defined and city %}{{ city.getName }}{% endif %}"
+                >
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,35 @@
+front_city_create:
+    path: /city
+    defaults: { _controller: AppBundle:Front\City:create }
+    methods: [GET]
+
+front_city_store:
+    path: /city
+    defaults: { _controller: AppBundle:Front\City:store }
+    methods: [POST]
+
+front_city_all:
+    path: /cities
+    defaults: { _controller: AppBundle:Front\City:all }
+    methods: [GET]
+
+front_city_edit:
+    path: /city/edit/{id}
+    defaults: { _controller: AppBundle:Front\City:edit }
+    methods: [GET]
+    requirements:
+        id: '\d+'
+
+front_city_update:
+    path: /city/edit/{id}
+    defaults: { _controller: AppBundle:Front\City:update }
+    methods: [PUT]
+    requirements:
+        id: '\d+'
+
+front_city_delete:
+    path: /city/{id}
+    defaults: { _controller: AppBundle:Front\City:delete }
+    methods: [DELETE]
+    requirements:
+        id: '\d+'

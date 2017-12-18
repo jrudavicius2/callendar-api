@@ -1,0 +1,46 @@
+AppBundle\Entity\Event:
+    properties:
+        name:
+            - NotBlank: ~
+            - Length:
+                max: 32
+                maxMessage: 'Event name cannot be longer than {{ limit }} characters'
+        type:
+            - NotBlank: ~
+            - Choice:
+                choices: [private, public]
+                message: 'Event type should only be private or public'
+        description:
+        date:
+            - NotBlank: ~
+            - Date: ~
+        participants:
+
+AppBundle\Entity\Category:
+    properties:
+        name:
+            - NotBlank:
+                message: 'Category name should not be blank'
+            - Length:
+                max: 32
+                maxMessage: 'Category name cannot be longer than {{ limit }} characters'
+        events:
+
+AppBundle\Entity\City:
+    properties:
+        name:
+            - NotBlank: ~
+            - Length:
+                max: 32
+                maxMessage: 'City name cannot be longer than {{ limit }} characters'
+        publishedAt:
+        event:
+
+AppBundle\Entity\Comment:
+    properties:
+        content:
+            - NotBlank: ~
+            - Length:
+                max: 160
+                maxMessage: 'Comment cannot be longer than {{ limit }} characters'
+        events:

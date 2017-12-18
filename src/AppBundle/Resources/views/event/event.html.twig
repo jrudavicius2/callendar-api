@@ -1,0 +1,104 @@
+{% extends '@App/base.html.twig' %}
+
+{% block body %}
+    {% if event is not null %}
+        {% if participant_error is defined and participant_error %}
+            <div class="col-lg-8 offset-lg-2">
+                <div class="alert alert-danger">
+                    {{ participant_error }}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if errors is defined and errors|length > 0 %}
+            <div class="alert alert-danger">
+                {% for error in errors %}
+                    {{ error.getMessage }}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="col-lg-8 offset-lg-2">
+            <div class="row">
+                <div class="col-md-8 col-sm-8">
+                    <h1 class="mt-4">{{ event.getName }}</h1>
+
+                    <p class="lead">
+                        by {{ event.getCreator.getUsername }}
+                    </p>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div style="text-align: right; margin-top: 26px">
+                        {% if app.user %}
+                            {% if event.creator.id == app.user.id %}
+                                <a class="d-inline" href="{{ path('front_event_edit', {'id': event.getId }) }}">
+                                    <img src="{{ asset('svg/edit.svg') }}" width="25" height="25" alt="Edit event">
+                                </a>
+                                <form class="d-inline" action="{{ path('front_event_delete', {'id': event.getId }) }}" method="POST">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input class="garbage-icon align-middle" type="image" src="{{ asset('svg/garbage.svg') }}" width="25" height="25">
+                                </form>
+                            {% else  %}
+                                <form action="{{ path('front_user_participate') }}" method="POST">
+                                    <input type="hidden" name="user" value="{{ app.user.id }}">
+                                    <input type="hidden" name="event" value="{{ event.id }}">
+                                    <button type="submit" class="btn btn-success">Participate</button>
+                                </form>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+            <p>The event is being held on {{ event.getDate|date('Y-m-d') }}</p>
+            <hr>
+
+            <img class="img-fluid rounded" src="http://placehold.it/900x300" alt="">
+            <hr>
+
+            <p>{{ event.getDescription }}</p>
+            <hr>
+
+            {% if event.participants|length > 0 %}
+                <p>
+                    {% for participant in event.participants %}
+                        {{ participant.getUsername }}
+                    {% endfor %}
+                </p>
+            {% else %}
+                <p>There are no participants</p>
+            {% endif %}
+            <hr>
+
+            {% if app.user %}
+                <div class="card my-4">
+                    <h5 class="card-header">Leave a Comment:</h5>
+                    <div class="card-body">
+                        <form action="{{ path('front_comment_store') }}" method="POST">
+                            <input type="hidden" name="event" value="{{ event.id }}">
+                            <div class="form-group">
+                                <textarea class="form-control" rows="3" name="content">{% if comment is defined and comment %}{{ comment.content }}{% endif %}</textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if event.comments|length > 0 %}
+                {% for comment in event.comments %}
+                    <div class="media mb-4">
+                        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                        <div class="media-body">
+                            {{ comment.getContent }}
+                            <div class="mt-0">{{ comment.getPublishedAt|date('Y-m-d') }}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    {% else %}
+        Event not found
+    {% endif %}
+{% endblock %}

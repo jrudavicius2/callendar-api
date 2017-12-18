@@ -1,0 +1,12 @@
+AppBundle\Entity\Category:
+    type: entity
+    repositoryClass: AppBundle\Repository\CategoryRepository
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        name:
+            type: string
+            column: name
+            length: 32

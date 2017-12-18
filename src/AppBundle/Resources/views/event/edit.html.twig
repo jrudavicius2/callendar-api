@@ -1,0 +1,99 @@
+{% extends '@App/base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block body %}
+    {% if event is not null %}
+        {% if errors is defined and errors|length > 0 %}
+            <div class="alert alert-danger">
+                {% for error in errors %}
+                    {{ error.getMessage }}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form action="{{ path('front_event_update', {'id': event.id}) }}" method="POST">
+            <input type="hidden" name="_method" value="PUT">
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="title-input">Event name</label>
+                <div class="col-md-10">
+                    <input id="title-input"
+                           class="form-control"
+                           type="text"
+                           name="name"
+                           placeholder="Enter name"
+                           value="{% if event is defined and event %}{{ event.getName }}{% endif %}"
+                    >
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="type-input">Event type</label>
+                <div class="col-md-10">
+                    <select class="form-control" id="type-input" name="type">
+                        <option value="public">public</option>
+                        <option value="private">private</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="type-input">Category</label>
+                <div class="col-md-10">
+                    <select class="form-control" id="type-input" name="category">
+                        {% if categories is not null %}
+                            {% for category in categories %}
+                                <option value="{{ category.getId }}">{{ category.getName }}</option>
+                            {% endfor %}
+                        {% endif %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="type-input">City</label>
+                <div class="col-md-10">
+                    <select class="form-control" id="type-input" name="city">
+                        {% if cities is not null %}
+                            {% for city in cities %}
+                                <option value="{{ city.getId }}">{{ city.getName }}</option>
+                            {% endfor %}
+                        {% endif %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="description-input">Description</label>
+                <div class="col-md-10">
+                    <textarea class="form-control" rows="5" id="description-input" name="description">{% if event is defined and event %}{{ event.getDescription }}{% endif %}</textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="date-input">Date</label>
+                <div class="col-md-10">
+                    <input id="date-input"
+                           class="form-control"
+                           type="text"
+                           placeholder="Select date"
+                           name="date"
+                           value="{% if event is defined and event %}{{ event.getDate|date('Y-m-d') }}{% endif %}"
+                    >
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+    {% else %}
+        <div class="alert alert-danger">
+            Event not found
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(function() {
+            $('#date-input').datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
+        });
+    </script>
+{% endblock %}

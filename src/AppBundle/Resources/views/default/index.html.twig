@@ -1,0 +1,59 @@
+{% extends '@App/base.html.twig' %}
+
+{% block body %}
+    <div id="calendar"></div>
+
+    {% for event in events %}
+        <div class="modal fade" id="modal-{{ event.getId }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{ event.getName }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{ event.getDescription }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <a class="btn btn-primary" href="{{ path('front_event_get', {'id': event.getId}) }}" style="color: #ffffff">Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function() {
+            $('#calendar').fullCalendar({
+                editable: false,
+                eventLimit: true, // allow "more" link when too many events
+                events: [
+                    {% for event in events %}
+                        {
+                            title: '{{ event.getName }}',
+                            start: '{{ event.getDate|date('Y-m-d') }}',
+                            id: '{{ event.getId }}'
+                        },
+                    {% endfor %}
+                ],
+                eventClick: function (event) {
+                    $('#modal-' + event.id).modal('toggle');
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        #calendar a {
+            color: #ffffff;
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}

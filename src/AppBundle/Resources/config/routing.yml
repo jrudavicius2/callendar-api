@@ -1,0 +1,42 @@
+home:
+    path: /
+    defaults: { _controller: AppBundle:Front\Default:index }
+
+authorization_code:
+    path: /auth_code
+    defaults: { _controller: AppBundle:Front\Default:authCode }
+
+api_user:
+    resource: '@AppBundle/Resources/config/routing/api/user.yml'
+    prefix: /api
+
+api_event:
+    resource: '@AppBundle/Resources/config/routing/api/event.yml'
+    prefix: /api
+
+api_city:
+    resource: '@AppBundle/Resources/config/routing/api/city.yml'
+    prefix: /api
+
+api_comment:
+    resource: '@AppBundle/Resources/config/routing/api/comment.yml'
+    prefix: /api
+
+api_category:
+    resource: '@AppBundle/Resources/config/routing/api/category.yml'
+    prefix: /api
+
+front_event:
+    resource: '@AppBundle/Resources/config/routing/front/event.yml'
+
+front_category:
+    resource: '@AppBundle/Resources/config/routing/front/category.yml'
+
+front_city:
+    resource: '@AppBundle/Resources/config/routing/front/city.yml'
+
+front_comment:
+    resource: '@AppBundle/Resources/config/routing/front/comment.yml'
+
+front_user:
+    resource: '@AppBundle/Resources/config/routing/front/user.yml'

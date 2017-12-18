@@ -1,0 +1,11 @@
+api_user_all:
+    path: /users
+    defaults: { _controller: AppBundle:Api\User:all }
+    methods: [GET]
+
+api_user_get:
+    path: /user/{id}
+    defaults: { _controller: AppBundle:Api\User:get }
+    methods: [GET]
+    requirements:
+        id: '\d+'

@@ -1,0 +1,40 @@
+{% extends '@App/base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block body %}
+    {% if cities|length > 0 %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for city in cities %}
+                    <tr>
+                        <th scope="row">{{ city.getId }}</th>
+                        <td>
+                            {{ city.getName }}
+                        </td>
+                        <td>
+                            <a class="d-inline" href="{{ path('front_city_edit', {'id': city.getId }) }}">
+                                <img src="{{ asset('svg/edit.svg') }}" width="25" height="25" alt="Edit category">
+                            </a>
+                            <form class="d-inline" action="{{ path('front_city_delete', {'id': city.getId }) }}" method="POST">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input class="align-middle" type="image" src="{{ asset('svg/garbage.svg') }}" width="25" height="25">
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        No cities
+    {% endif %}
+{% endblock %}

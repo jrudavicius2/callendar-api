@@ -1,0 +1,30 @@
+api_city_create:
+    path: /city
+    defaults: { _controller: AppBundle:Api\City:create }
+    methods: [POST]
+
+api_city_all:
+    path: /cities
+    defaults: { _controller: AppBundle:Api\City:all }
+    methods: [GET]
+
+api_city_get:
+    path: /city/{id}
+    defaults: { _controller: AppBundle:Api\City:get }
+    methods: [GET]
+    requirements:
+        id: '\d+'
+
+api_city_edit:
+    path: /city/{id}
+    defaults: { _controller: AppBundle:Api\City:edit }
+    methods: [PUT]
+    requirements:
+        id: '\d+'
+
+api_city_delete:
+    path: /city/{id}
+    defaults: { _controller: AppBundle:Api\City:delete }
+    methods: [DELETE]
+    requirements:
+        id: '\d+'

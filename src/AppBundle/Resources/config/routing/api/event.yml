@@ -1,0 +1,37 @@
+api_event_create:
+    path: /event
+    defaults: { _controller: AppBundle:Api\Event:create }
+    methods: [POST]
+
+api_events_all:
+    path: /events
+    defaults: { _controller: AppBundle:Api\Event:all }
+    methods: [GET]
+
+api_event_get:
+    path: /event/{id}
+    defaults: { _controller: AppBundle:Api\Event:get }
+    methods: [GET]
+    requirements:
+        id: '\d+'
+
+api_event_edit:
+    path: /event/{id}
+    defaults: { _controller: AppBundle:Api\Event:edit }
+    methods: [PUT]
+    requirements:
+        id: '\d+'
+
+api_event_delete:
+    path: /event/{id}
+    defaults: { _controller: AppBundle:Api\Event:delete }
+    methods: [DELETE]
+    requirements:
+        id: '\d+'
+
+api_event_participate:
+    path: /event/{id}/participate
+    defaults: { _controller: AppBundle:Api\Event:participate }
+    methods: [POST]
+    requirements:
+        id: '\d+'

@@ -1,0 +1,27 @@
+services:
+    app.controller.api_category:
+        class: AppBundle\Controller\Api\CategoryController
+
+    app.controller.api_city:
+        class: AppBundle\Controller\Api\CityController
+
+    app.controller.api_comment:
+        class: AppBundle\Controller\Api\CommentController
+
+    app.controller.api_event:
+        class: AppBundle\Controller\Api\EventController
+
+    app.controller.api_user:
+        class: AppBundle\Controller\Api\UserController
+
+    app.controller.front_event:
+        class: AppBundle\Controller\Front\EventController
+
+    app.controller.front_category:
+        class: AppBundle\Controller\Front\CategoryController
+
+    app.controller.front_city:
+        class: AppBundle\Controller\Front\CityController
+
+    app.controller.front_default:
+        class: AppBundle\Controller\Front\DefaultController

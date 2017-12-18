@@ -1,0 +1,4 @@
+front_comment_store:
+    path: /comment
+    defaults: { _controller: AppBundle:Front\Comment:store }
+    methods: [POST]

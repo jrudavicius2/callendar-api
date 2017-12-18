@@ -1,0 +1,30 @@
+api_category_create:
+    path: /category
+    defaults: { _controller: AppBundle:Api\Category:create }
+    methods: [POST]
+
+api_category_all:
+    path: /categories
+    defaults: { _controller: AppBundle:Api\Category:all }
+    methods: [GET]
+
+api_category_get:
+    path: /category/{id}
+    defaults: { _controller: AppBundle:Api\Category:get }
+    methods: [GET]
+    requirements:
+        id: '\d+'
+
+api_category_edit:
+    path: /category/{id}
+    defaults: { _controller: AppBundle:Api\Category:edit }
+    methods: [PUT]
+    requirements:
+        id: '\d+'
+
+api_category_delete:
+    path: /category/{id}
+    defaults: { _controller: AppBundle:Api\Category:delete }
+    methods: [DELETE]
+    requirements:
+        id: '\d+'

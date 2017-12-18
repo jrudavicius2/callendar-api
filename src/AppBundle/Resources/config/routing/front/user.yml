@@ -1,0 +1,4 @@
+front_user_participate:
+    path: /participate
+    defaults: { _controller: AppBundle:Front\User:participate }
+    methods: [POST]

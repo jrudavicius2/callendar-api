@@ -1,0 +1,50 @@
+AppBundle\Entity\Event:
+    type: entity
+    repositoryClass: AppBundle\Repository\EventRepository
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        name:
+            type: string
+            length: 32
+        type:
+            type: string
+            length: 16
+        description:
+            type: text
+            column: description
+        date:
+            type: date
+
+    manyToOne:
+        creator:
+            targetEntity: AppBundle\Entity\User
+            joinColumn:
+                name: creator_id
+                referencedColumnName: id
+        category:
+            targetEntity: AppBundle\Entity\Category
+            joinColumn:
+                name: category_id
+                referencedColumnName: id
+        city:
+            targetEntity: AppBundle\Entity\City
+            joinColumn:
+                name: city_id
+                referencedColumnName: id
+    manyToMany:
+        participants:
+            targetEntity: AppBundle\Entity\User
+            jointTable:
+                joinColumns:
+                    event_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    user_id:
+                        referencedColumnName: id
+    oneToMany:
+        comments:
+            targetEntity: AppBundle\Entity\Comment
+            mappedBy: event
