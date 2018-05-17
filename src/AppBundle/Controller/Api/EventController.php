@@ -11,12 +11,29 @@ use Doctrine\ORM\EntityRepository;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\View;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class EventController extends FOSRestController
 {
+    /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Create an event",
+     *  output="AppBundle\Entity\Event",
+     *     statusCodes={
+     *         200="Returned when successful",
+     *         400="Returned when the input parameters are bad"
+     *     }
+     * )
+     *
+     * @Rest\View
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function createAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -78,6 +95,15 @@ class EventController extends FOSRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Gets list of events",
+     *  output="ArrayCollection<AppBundle\Entity\Event>",
+     *     statusCodes={
+     *         200="Returned when successful"
+     *     }
+     * )
+     *
      * @Rest\View
      * @throws \LogicException
      */
@@ -111,6 +137,16 @@ class EventController extends FOSRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get an event",
+     *  output="AppBundle\Entity\Event",
+     *     statusCodes={
+     *         200="Returned when successful",
+     *          404="Returns when event not found"
+     *     }
+     * )
+     *
      * @Rest\View
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
@@ -143,6 +179,17 @@ class EventController extends FOSRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Edit an event",
+     *  output="AppBundle\Entity\Event",
+     *     statusCodes={
+     *         200="Returned when successful",
+     *         400="Returned when the input parameters are bad",
+     *         404="Returned when the event not found"
+     *     }
+     * )
+     *
      * @Rest\View
      */
     public function editAction($id, Request $request)
@@ -196,6 +243,15 @@ class EventController extends FOSRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Delete an event",
+     *     statusCodes={
+     *         204="Returned when successful",
+     *         404="Returned when the event not found"
+     *     }
+     * )
+     *
      * @Rest\View
      */
     public function deleteAction(Event $event)

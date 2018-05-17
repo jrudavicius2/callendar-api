@@ -5,7 +5,7 @@ namespace AppBundle\Controller\Api;
 use AppBundle\Entity\Category;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -13,6 +13,20 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class CategoryController extends FOSRestController
 {
     /**
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Create a category",
+     *  output="AppBundle\Entity\Category",
+     *  parameters={
+     *      {"name"="name", "dataType"="string", "required"=true, "description"="category name"}
+     *  },
+     *     statusCodes={
+     *         200="Returned when successful",
+     *         400="Returned when the input parameters are bad"
+     *     }
+     * )
+     *
      * @Rest\View
      *
      * @param Request $request
@@ -42,6 +56,15 @@ class CategoryController extends FOSRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Gets list of categories",
+     *  output="ArrayCollection<AppBundle\Entity\Category>",
+     *     statusCodes={
+     *         200="Returned when successful"
+     *     }
+     * )
+     *
      * @Rest\View
      *
      * @return Category[]
@@ -56,6 +79,21 @@ class CategoryController extends FOSRestController
     }
 
     /**
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Gets category",
+     *  output="AppBundle\Entity\Category",
+     *     parameters={
+     *      {"name"="categoryId", "dataType"="integer", "required"=true, "description"="category id", "requirement"="\d+",}
+     *  },
+     *     statusCodes={
+     *         200="Returned when successful",
+     *          404="Returns when category not found"
+     *     }
+     * )
+     *
+     *
      * @Rest\View
      *
      * @param $id
@@ -77,6 +115,19 @@ class CategoryController extends FOSRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Create a category",
+     *  output="AppBundle\Entity\Category",
+     *  parameters={
+     *      {"name"="name", "dataType"="string", "required"=true, "description"="category name"}
+     *  },
+     *     statusCodes={
+     *         200="Returned when successful",
+     *         400="Returned when the input parameters are bad"
+     *     }
+     * )
+     *
      * @Rest\View
      *
      * @param $id

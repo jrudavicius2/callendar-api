@@ -129,3 +129,5 @@ fos_rest:
     serializer:
 #        version: 1.0
 #        groups: [data]
+
+nelmio_api_doc: ~
