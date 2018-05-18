@@ -36,7 +36,6 @@ class CategoryController extends FOSRestController
      */
     public function createAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
         $data = json_decode($request->getContent(), true);
 
         $category = new Category();
@@ -45,12 +44,10 @@ class CategoryController extends FOSRestController
         $validator = $this->get('validator');
         $errors = $validator->validate($category);
 
-        if (count($errors) > 0) {
-            throw new HttpException(400, $errors[0]->getMessage());
-        }
+        if (count($errors) > 0) {}
 
-        $em->persist($category);
-        $em->flush();
+        $this->getDoctrine()->getManager()->persist($category);
+        $this->getDoctrine()->getManager()->flush();
 
         return $category;
     }
@@ -110,54 +107,6 @@ class CategoryController extends FOSRestController
         if (!$category instanceof Category) {
             throw new NotFoundHttpException('Category not found');
         }
-
-        return $category;
-    }
-
-    /**
-     * @ApiDoc(
-     *  resource=true,
-     *  description="Create a category",
-     *  output="AppBundle\Entity\Category",
-     *  parameters={
-     *      {"name"="name", "dataType"="string", "required"=true, "description"="category name"}
-     *  },
-     *     statusCodes={
-     *         200="Returned when successful",
-     *         400="Returned when the input parameters are bad"
-     *     }
-     * )
-     *
-     * @Rest\View
-     *
-     * @param $id
-     * @param Request $request
-     * @return Category|null
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     * @throws \LogicException
-     */
-    public function editAction($id, Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $category = $em->getRepository(Category::class)
-            ->find($id)
-        ;
-
-        if (!$category instanceof Category) {
-            throw new NotFoundHttpException('Category not found');
-        }
-
-        $data = json_decode($request->getContent(), true);
-        $category->setName($data['name'] ?: $category->getName());
-
-        $validator = $this->get('validator');
-        $errors = $validator->validate($category);
-
-        if (count($errors) > 0) {
-            throw new HttpException(400, $errors[0]->getMessage());
-        }
-
-        $em->flush();
 
         return $category;
     }
