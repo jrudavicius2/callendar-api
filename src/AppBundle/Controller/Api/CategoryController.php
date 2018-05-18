@@ -99,7 +99,6 @@ class CategoryController extends FOSRestController
      * @param $id
      * @return Category|null
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     * @throws \LogicException
      */
     public function getAction($id)
     {
