@@ -54,16 +54,16 @@ class EventController extends FOSRestController
             throw new NotFoundHttpException('Category not found');
         }
 
-        $event = new Event();
-        $event->setName($data['name'] ?: '');
-        $event->setType($data['type'] ?: '');
-        $event->setDescription($data['description'] ?: '');
-        $event->setDate(new \DateTime($data['date']) ?: new \DateTime());
-        $event->setCreator($user);
-        $event->setParticipants($this->getSpecificDataArray($data['participants'], $em->getRepository(User::class)));
-        $event->setComments($this->getSpecificDataArray($data['comments'], $em->getRepository(Comment::class)));
-        $event->setCategory($category);
-        $event->setCity($city);
+        $event = (new Event())
+            ->setName($data['name'] ?: '')
+            ->setType($data['type'] ?: '')
+            ->setDescription($data['description'] ?: '')
+            ->setDate(new \DateTime($data['date']) ?: new \DateTime())
+            ->setCreator($user)
+            ->setParticipants($this->getSpecificDataArray($data['participants'], $em->getRepository(User::class)))
+            ->setComments($this->getSpecificDataArray($data['comments'], $em->getRepository(Comment::class)))
+            ->setCategory($category)
+            ->setCity($city);
         $validator = $this->get('validator');
         $errors = $validator->validate($event);
 
@@ -77,7 +77,6 @@ class EventController extends FOSRestController
         $em->flush();
 
         $view = View::create();
-        $handler = $this->get('fos_rest.view_handler');
         $view->setData([
             'id' => $event->getId(),
             'name' => $event->getName(),
@@ -91,7 +90,7 @@ class EventController extends FOSRestController
             'city' => $event->getCity()->getId()
         ]);
 
-        return $handler->handle($view);
+        return $this->get('fos_rest.view_handler')->handle($view);
     }
 
     /**
@@ -132,6 +131,48 @@ class EventController extends FOSRestController
         $view = View::create();
         $handler = $this->get('fos_rest.view_handler');
         $view->setData($data);
+
+        return $handler->handle($view);
+    }
+
+    /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get an event",
+     *  output="AppBundle\Entity\Event",
+     *     statusCodes={
+     *         200="Returned when successful",
+     *          404="Returns when event not found"
+     *     }
+     * )
+     *
+     * @Rest\View
+     * @throws NotFoundHttpException
+     */
+    public function getAction($id)
+    {
+        $event = $this->getDoctrine()
+            ->getRepository(Event::class)
+            ->find($id);
+
+        if (!$event instanceof Event) {
+            throw new NotFoundHttpException('Event not found');
+        }
+
+        $view = View::create();
+        $handler = $this->get('fos_rest.view_handler');
+        $view->setData([
+            'id' => $event->getId(),
+            'name' => $event->getName(),
+            'type' => $event->getType(),
+            'description' => $event->getDescription(),
+            'date' => $event->getDate(),
+            'creator' => $event->getCreator()->getId(),
+            'participants' => $this->getArrayData($event->getParticipants()),
+            'comments' => $this->getArrayData($event->getComments()),
+            'category' => $event->getCategory()->getId(),
+            'city' => $event->getCity()->getId()
+        ]);
 
         return $handler->handle($view);
     }
@@ -264,6 +305,36 @@ class EventController extends FOSRestController
     }
 
     /**
+     * @param string|string[] $data
+     * @param EntityRepository $repository
+     * @return array
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws \InvalidArgumentException
+     */
+    private function getSpecificDataArray($data, EntityRepository $repository)
+    {
+        $items = [];
+        if (isset($data)) {
+            if (\is_array($data)) {
+                foreach ($data as $datum) {
+                    $object = $repository->find($datum);
+                    if (!$object) {
+                        throw new NotFoundHttpException(
+                            $repository->getClassName().' with id '.$datum.' not found'
+                        );
+                    }
+
+                    $items[] = $object;
+                }
+            } else {
+                throw new HttpException(400, $repository->getClassName().' property must be an array');
+            }
+        }
+        return $items;
+    }
+
+    /**
      * @param User[]|Comment[] $participants
      * @return array
      */
@@ -276,5 +347,18 @@ class EventController extends FOSRestController
             ];
         }
         return $data;
+    }
+
+    /**
+     * @param Event $event
+     */
+    private function checkIfParticipantIsNotCreator($event)
+    {
+        $creatorId = $event->getCreator()->getId();
+        foreach ($event->getParticipants() as $participant) {
+            if ($creatorId === $participant->getId()) {
+                throw new HttpException(400, 'Creator is automatically a participant');
+            }
+        }
     }
 }
