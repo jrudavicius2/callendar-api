@@ -134,7 +134,6 @@ class CategoryController extends FOSRestController
      * @param Request $request
      * @return Category|null
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     * @throws \LogicException
      */
     public function editAction($id, Request $request)
     {

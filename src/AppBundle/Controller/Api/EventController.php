@@ -148,7 +148,7 @@ class EventController extends FOSRestController
      * )
      *
      * @Rest\View
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws NotFoundHttpException
      */
     public function getAction($id)
     {
